@@ -53,7 +53,11 @@ for index, row in random_rows.iterrows():
         pos = song.lyrics.find(f'{track_name} Lyrics')
         lyric = song.lyrics[pos:]
         if len(lyric) > 2:
-            lyrics[track_name] = lyric
+            # print('here')
+            emotion = row['seeds'][1:-1].split(',')[0][1:-1]
+            lyrics[track_name] = [lyric, emotion]
+            # print(lyric, emotion)
+            # break
     except:
         not_found.add(track_name)
     time.sleep(0.5)
