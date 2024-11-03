@@ -22,8 +22,8 @@ genius.excluded_terms = ["Remix", "Live"]
 #     print(cleaned_lyrics.encode("utf-8"))
 #     # print(song.lyrics.encode("utf-8"))
 
-song_name = "Happy"
-artist = "Pharrel Williams"
+song_name = "Boulevard of Broken Dreams"
+artist = "Green Day"
 
 song = genius.search_song(song_name, artist)
 pos = song.lyrics.find(f'{song_name} Lyrics')
