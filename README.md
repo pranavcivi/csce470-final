@@ -7,3 +7,9 @@
    - Modify the values of `song_name` and `artist`.
 4. Run all cells in the notebook.
 5. Check the output of the last cell for document rankings based on the emotion most closely matching the selected song.
+
+### Dependencies
+
+1. pickle
+2. nltk
+3. lyricsgenius
