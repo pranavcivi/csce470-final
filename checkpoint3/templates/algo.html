@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Song Information</title>
+</head>
+<body>
+    <h1>Song Information</h1>
+    
+    <p><strong>Song Name:</strong> {{ songName }}</p>
+    <p><strong>Song Artist:</strong> {{ songArtist }}</p>
+    <p> This song is  {{ song_details[0][0] }}!</p>
+
+    <h2>Other Related Categories</h2>
+    <ul>
+        {% for detail in song_details %}
+            {% if loop.index > 1 %}  {# Skip the first item #}
+                <li>{{ detail[0] }} with score: {{ detail[1] }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h2>Similar Songs</h2>
+    <ul>
+        it might seem crazy what im bout to say
+    </ul>
+</body>
+</html>

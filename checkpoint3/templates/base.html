@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Search</title>
+</head>
+<body>
+    <h1>Song Search</h1>
+    
+    <form id="songForm" onsubmit="redirectToLink(event)">
+        <label for="songName">Song Name:</label>
+        <input type="text" id="songName" name="songName" required>
+        <br><br>
+        
+        <label for="songArtist">Song Artist:</label>
+        <input type="text" id="songArtist" name="songArtist" required>
+        <br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function redirectToLink(event) {
+            event.preventDefault(); // Prevent form submission from refreshing the page
+            
+            const songName = encodeURIComponent(document.getElementById("songName").value);
+            const songArtist = encodeURIComponent(document.getElementById("songArtist").value);
+            
+            // Construct the URL with query parameters
+            const url = `http://localhost:5000/algo/${songName}/${songArtist}`;
+            
+            // Redirect to the constructed URL
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
