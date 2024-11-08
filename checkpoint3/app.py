@@ -61,7 +61,6 @@ def base():
 
 @app.route('/algo/<songName>/<songArtist>')
 def algo(songName, songArtist):
-
     song = genius.search_song(songName, songArtist)
     pos = song.lyrics.find(f'{songName} Lyrics')
     query = song.lyrics[pos:]

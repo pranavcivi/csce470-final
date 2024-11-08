@@ -4,35 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Song Search</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fae4;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Song Search</h1>
-    
-    <form id="songForm" onsubmit="redirectToLink(event)">
-        <label for="songName">Song Name:</label>
-        <input type="text" id="songName" name="songName" required>
-        <br><br>
-        
-        <label for="songArtist">Song Artist:</label>
-        <input type="text" id="songArtist" name="songArtist" required>
-        <br><br>
-        
-        <button type="submit">Submit</button>
-    </form>
 
-    <script>
-        function redirectToLink(event) {
-            event.preventDefault(); // Prevent form submission from refreshing the page
-            
-            const songName = encodeURIComponent(document.getElementById("songName").value);
-            const songArtist = encodeURIComponent(document.getElementById("songArtist").value);
-            
-            // Construct the URL with query parameters
-            const url = `http://localhost:5000/algo/${songName}/${songArtist}`;
-            
-            // Redirect to the constructed URL
-            window.location.href = url;
-        }
-    </script>
+<div class="container form-container">
+    <div class="form-box bg-light">
+        <h1 class="text-center mb-4">Song Search</h1>
+        <form id="songForm" onsubmit="redirectToLink(event)">
+            <div class="form-group">
+                <label for="songName">Song Name:</label>
+                <input type="text" class="form-control" id="songName" name="songName" required>
+            </div>
+            <div class="form-group">
+                <label for="songArtist">Song Artist:</label>
+                <input type="text" class="form-control" id="songArtist" name="songArtist" required>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function redirectToLink(event) {
+        event.preventDefault();
+        
+        const songName = encodeURIComponent(document.getElementById("songName").value);
+        const songArtist = encodeURIComponent(document.getElementById("songArtist").value);
+        
+        const url = `http://localhost:5000/algo/${songName}/${songArtist}`;
+        
+        window.location.href = url;
+    }
+</script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

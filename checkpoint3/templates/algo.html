@@ -4,26 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display Song Information</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Song Information</h1>
-    
-    <p><strong>Song Name:</strong> {{ songName }}</p>
-    <p><strong>Song Artist:</strong> {{ songArtist }}</p>
-    <p> This song is  {{ song_details[0][0] }}!</p>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h1 class="card-title mb-0">Song Information</h1>
+            </div>
+            <div class="card-body">
+                <p><strong>Song Name:</strong> {{ songName }}</p>
+                <p><strong>Song Artist:</strong> {{ songArtist }}</p>
+                <p>This song is <span class="font-weight-bold">{{ song_details[0][0] }}</span>!</p>
+            </div>
+        </div>
 
-    <h2>Other Related Categories</h2>
-    <ul>
-        {% for detail in song_details %}
-            {% if loop.index > 1 %}  {# Skip the first item #}
-                <li>{{ detail[0] }} with score: {{ detail[1] }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+        <div class="mt-4">
+            <h2 class="text-secondary">Other Related Categories</h2>
+            <ul class="list-group">
+                {% for detail in song_details %}
+                    {% if loop.index > 1 %}  {# Skip the first item #}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ detail[0] }}
+                            <span class="badge badge-info badge-pill">{{ detail[1] }}</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>Similar Songs</h2>
-    <ul>
-        it might seem crazy what im bout to say
-    </ul>
+        <div class="mt-4">
+            <h2 class="text-secondary">Similar Songs</h2>
+            <ul class="list-group">
+                <li class="list-group-item">It might seem crazy what I’m bout to say</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
