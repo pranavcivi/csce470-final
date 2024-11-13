@@ -50,7 +50,7 @@
         const songName = encodeURIComponent(document.getElementById("songName").value);
         const songArtist = encodeURIComponent(document.getElementById("songArtist").value);
         
-        const url = `http://localhost:5000/algo/${songName}/${songArtist}`;
+        const url = `./algo/${songName}/${songArtist}`;
         
         window.location.href = url;
     }
