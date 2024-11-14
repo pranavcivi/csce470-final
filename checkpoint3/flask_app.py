@@ -4,36 +4,47 @@ import pickle
 import math
 from collections import Counter
 app = Flask(__name__)
+import os
+
+# os.environ['HTTP_PROXY'] = ''
+# os.environ['HTTPS_PROXY'] = ''
+# os.environ['NO_PROXY'] = 'genius.com,localhost,127.0.0.1'
 
 k1 = 1.0
 b = 0.9
 
 genius = Genius('HhcPCGMwENzdfMQlauEV1Om0UormkWc6Wrwxri-LFTfBSNkzhwMSVUnR5tZG8eXW')
+# genius._session.proxies = {
+#     "http": None,
+#     "https": None
+# }
 genius.remove_section_headers = True
 genius.skip_non_songs = False
 genius.excluded_terms = ["Remix", "Live"]
-stop_words = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 
-'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 
-'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 
+stop_words = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours',
+'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself',
+'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself',
 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves',
  'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are',
  'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
- 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 
-'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 
-'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 
-'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 
-'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 
+ 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for',
+'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to',
+'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once',
+'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most',
+'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very',
 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y',
- 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 
+ 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't",
 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn',
- "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 
+ "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't",
 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # with open('../classifications.pkl', 'rb') as f1:
 #     classifications = pickle.load(f1)
-with open('./big-songs-updated.pkl', 'rb') as f2:
+with open(os.path.join(BASE_DIR, 'big-songs-updated.pkl'), 'rb') as f2:
     big_songs = pickle.load(f2)
-with open('./lyrics-updated.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'lyrics-updated.pkl'), 'rb') as f:
     song_lyrics = pickle.load(f)
 
 def tokenize(lyrics):
@@ -44,7 +55,7 @@ def bm25(query, document, doc_length, doc_freqs, avg_doc_length):
     score = 0.0
     query_terms = tokenize(query)
     term_freqs = Counter(document)
-    
+
     for term in query_terms:
         if term in doc_freqs:  # term must appear in the corpus
             # Calculate BM25 components
@@ -84,7 +95,7 @@ def algo(songName, songArtist):
         unique_terms = set(doc)
         for term in unique_terms:
             doc_freqs[term] = doc_freqs.get(term, 0) + 1
-    
+
     scores = []
     for doc_id, doc in tokenized_songs.items():
         score = bm25(query, doc, doc_lengths[doc_id], doc_freqs, avg_doc_length)
@@ -98,7 +109,7 @@ def algo(songName, songArtist):
     # for rank, (doc_id, score) in enumerate(ranked_docs, start=1):
     #     print(f"Rank {rank}: Document {doc_id} with score {score:.4f}")
 
-    
+
 
     return render_template('algo.html', songName=songName, songArtist=songArtist, song_details=ranked_docs)
 
