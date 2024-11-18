@@ -159,7 +159,7 @@ def algo(songName, songArtist):
 
 
 
-    return render_template('base.html', playlists=playlists, ranked_docs=ranked_docs)
+    return render_template('base.html', playlists=playlists, ranked_docs=ranked_docs, song_name=songName, song_artist=songArtist)
 
 @app.route("/hello")
 def hello_world():

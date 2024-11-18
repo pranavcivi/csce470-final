@@ -86,7 +86,7 @@
     {% if ranked_docs %}
     <div class="emotions-container">
         <div class="emotions-box">
-            <h2 class="text-center">Top Emotions</h2>
+            <h2 class="text-center">Top Emotions for {{song_name}} by {{song_artist}}</h2>
             <ul class="list-group">
                 {% for detail in ranked_docs[:5] %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
