@@ -104,11 +104,14 @@
     function redirectToLink(event) {
         event.preventDefault();
         
+        // Get the input values and encode them for URL usage
         const songName = encodeURIComponent(document.getElementById("songName").value);
         const songArtist = encodeURIComponent(document.getElementById("songArtist").value);
         
-        const url = `./algo/${songName}/${songArtist}`;
+        // Construct the correct URL
+        const url = `https://csce470-final.onrender.com/algo/${songName}/${songArtist}`;
         
+        // Redirect to the constructed URL
         window.location.href = url;
     }
 </script>

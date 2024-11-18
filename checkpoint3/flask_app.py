@@ -39,7 +39,7 @@ category_match = {
     'serious': 'serious',
     'sorrowful': 'sad',
     'sad': 'sad',
-    'mild': 'neutral'
+    'mild': 'content'
 }
 
 playlists = {
