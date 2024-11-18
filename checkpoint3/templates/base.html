@@ -111,7 +111,7 @@
         
         // Construct the correct URL
         const url = `https://csce470-final.onrender.com/algo/${songName}/${songArtist}`;
-        // const url = `./algo/${songName}/${songArtist}`;
+        // const url = `http://127.0.0.1:5000/algo/${songName}/${songArtist}`;
         
         // Redirect to the constructed URL
         window.location.href = url;
@@ -120,18 +120,8 @@
         fetch('/reset_playlists', {
             method: 'POST'
         })
-        .then(response => {
-            if (response.ok) {
-                // Reload the page to see the updated (empty) playlists
-                window.location.reload();
-            } else {
-                alert('Failed to reset playlists.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred.');
-        });
+        // window.location.href = 'http://127.0.0.1:5000';
+        window.location.href = 'https://csce470-final.onrender.com';
     }
 </script>
 

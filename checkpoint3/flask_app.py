@@ -166,7 +166,8 @@ def reset_playlists():
     global playlists
     # Reset the playlists dictionary
     playlists = {key: [] for key in playlists}
-    return redirect('https://csce470-final.onrender.com/')
+    # return redirect('https://csce470-final.onrender.com/')
+    return ''
 
 @app.route("/hello")
 def hello_world():
