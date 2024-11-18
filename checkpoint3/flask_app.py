@@ -5,10 +5,55 @@ import math
 from collections import Counter
 app = Flask(__name__)
 import os
+from flask import Flask, render_template, request, jsonify
+
 
 # os.environ['HTTP_PROXY'] = ''
 # os.environ['HTTPS_PROXY'] = ''
 # os.environ['NO_PROXY'] = 'genius.com,localhost,127.0.0.1'
+
+category_match = {
+    'frustration': 'anxious',
+    'thrilling': 'energetic',
+    'confident': 'curious',
+    'neutral': 'neutral',
+    'hectic': 'anxious',
+    'passionate': 'passionate',
+    'eager': 'energetic',
+    'animated': 'passionate',
+    'fulfilled': 'content',
+    'electric': 'passionate',
+    'enthusiastic': 'energetic',
+    'delightful': 'happy',
+    'excited': 'energetic',
+    'satisfaction': 'content',
+    'curious': 'curious',
+    'content': 'content',
+    'pleasing': 'happy',
+    'indifferent': 'neutral',
+    'lukewarm': 'neutral',
+    'anxious': 'anxious',
+    'happy': 'happy',
+    'determined': 'curious',
+    'distressed': 'sad',
+    'serious': 'serious',
+    'sorrowful': 'sad',
+    'sad': 'sad',
+    'mild': 'neutral'
+}
+
+playlists = {
+    'happy' : [],
+    'energetic' : [],
+    'curious' : [],
+    'calm' : [],
+    'sad' : [],
+    'anxious' : [],
+    'content' : [],
+    'serious' : [],
+    'passionate' : [],
+    'neutral' : []
+}
 
 k1 = 1.0
 b = 0.9
@@ -68,7 +113,7 @@ def bm25(query, document, doc_length, doc_freqs, avg_doc_length):
 
 @app.route('/')
 def base():
-    return render_template('base.html')
+    return render_template('base.html', playlists=playlists, ranked_docs=None)
 
 @app.route('/algo/<songName>/<songArtist>')
 def algo(songName, songArtist):
@@ -103,6 +148,9 @@ def algo(songName, songArtist):
 
     # Sort documents by score in descending order
     ranked_docs = sorted(scores, key=lambda x: x[1], reverse=True)
+    best_category = ranked_docs[0][0]
+    playlists[category_match[best_category]].append(f'{songName} by {songArtist}')
+    # print(ranked_docs[0])
 
     # Display the ranking results
     # print("Document Rankings:")
@@ -111,7 +159,7 @@ def algo(songName, songArtist):
 
 
 
-    return render_template('algo.html', songName=songName, songArtist=songArtist, song_details=ranked_docs)
+    return render_template('base.html', playlists=playlists, ranked_docs=ranked_docs)
 
 @app.route("/hello")
 def hello_world():

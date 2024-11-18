@@ -9,38 +9,95 @@
         body {
             background-color: #f8f9fae4;
         }
-        .form-container {
+        .content-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-top: 20px;
         }
-        .form-box {
+        .form-box, .playlists-box {
             width: 100%;
             max-width: 400px;
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            background-color: white;
+        }
+        .emotions-box {
+            width: 100%;
+            max-width: 700px;
+            padding: 1.5rem;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: white;
+        }
+        .playlists-box {
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+        .emotions-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
 
-<div class="container form-container">
-    <div class="form-box bg-light">
-        <h1 class="text-center mb-4">Song Search</h1>
-        <form id="songForm" onsubmit="redirectToLink(event)">
-            <div class="form-group">
-                <label for="songName">Song Name:</label>
-                <input type="text" class="form-control" id="songName" name="songName" required>
-            </div>
-            <div class="form-group">
-                <label for="songArtist">Song Artist:</label>
-                <input type="text" class="form-control" id="songArtist" name="songArtist" required>
-            </div>
-            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
-        </form>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Song Search and Playlists</h1>
+    <div class="content-container">
+        <!-- Song Search Box -->
+        <div class="form-box">
+            <h2 class="text-center">Song Search</h2>
+            <form id="songForm" onsubmit="redirectToLink(event)">
+                <div class="form-group">
+                    <label for="songName">Song Name:</label>
+                    <input type="text" class="form-control" id="songName" name="songName" required>
+                </div>
+                <div class="form-group">
+                    <label for="songArtist">Song Artist:</label>
+                    <input type="text" class="form-control" id="songArtist" name="songArtist" required>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+            </form>
+        </div>
+
+        <!-- Playlists Box -->
+        <div class="playlists-box">
+            <h3 class="text-center">Playlists</h3>
+            {% for category, songs in playlists.items() %}
+                {% if songs %}
+                    <div class="mb-3">
+                        <h5>{{ category }}</h5>
+                        <ul class="list-group">
+                            {% for song in songs %}
+                                <li class="list-group-item">{{ song }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
+
+    {% if ranked_docs %}
+    <div class="emotions-container">
+        <div class="emotions-box">
+            <h2 class="text-center">Top Emotions</h2>
+            <ul class="list-group">
+                {% for detail in ranked_docs[:5] %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ detail[0] }}
+                        <span class="badge badge-info badge-pill">{{ detail[1] }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <script>
