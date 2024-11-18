@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, url_for
 from lyricsgenius import Genius
 import pickle
 import math
@@ -160,6 +160,13 @@ def algo(songName, songArtist):
 
 
     return render_template('base.html', playlists=playlists, ranked_docs=ranked_docs, song_name=songName, song_artist=songArtist)
+
+@app.route('/reset_playlists', methods=['POST'])
+def reset_playlists():
+    global playlists
+    # Reset the playlists dictionary
+    playlists = {key: [] for key in playlists}
+    return redirect(url_for('base'))
 
 @app.route("/hello")
 def hello_world():

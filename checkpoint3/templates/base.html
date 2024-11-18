@@ -47,6 +47,7 @@
 <body>
 
 <div class="container mt-4">
+    <button onclick="resetPlaylists()" class="btn btn-danger btn-block mb-3">Reset Playlists</button>
     <h1 class="text-center mb-4">Song Search and Playlists</h1>
     <div class="content-container">
         <!-- Song Search Box -->
@@ -65,7 +66,7 @@
             </form>
         </div>
 
-        <!-- Playlists Box -->
+       
         <div class="playlists-box">
             <h3 class="text-center">Playlists</h3>
             {% for category, songs in playlists.items() %}
@@ -110,9 +111,27 @@
         
         // Construct the correct URL
         const url = `https://csce470-final.onrender.com/algo/${songName}/${songArtist}`;
+        // const url = `./algo/${songName}/${songArtist}`;
         
         // Redirect to the constructed URL
         window.location.href = url;
+    }
+    function resetPlaylists() {
+        fetch('/reset_playlists', {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reload the page to see the updated (empty) playlists
+                window.location.reload();
+            } else {
+                alert('Failed to reset playlists.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred.');
+        });
     }
 </script>
 
