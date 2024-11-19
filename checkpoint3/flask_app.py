@@ -13,11 +13,11 @@ from flask import Flask, render_template, request, jsonify
 # os.environ['NO_PROXY'] = 'genius.com,localhost,127.0.0.1'
 
 category_match = {
-    'frustration': 'anxious',
+    'frustration': 'hectic',
     'thrilling': 'energetic',
-    'confident': 'curious',
-    'neutral': 'neutral',
-    'hectic': 'anxious',
+    'confident': 'inspired',
+    'neutral': 'reflective',
+    'hectic': 'hectic',
     'passionate': 'passionate',
     'eager': 'energetic',
     'animated': 'passionate',
@@ -27,32 +27,32 @@ category_match = {
     'delightful': 'happy',
     'excited': 'energetic',
     'satisfaction': 'content',
-    'curious': 'curious',
+    'curious': 'motivated',
     'content': 'content',
     'pleasing': 'happy',
-    'indifferent': 'neutral',
-    'lukewarm': 'neutral',
-    'anxious': 'anxious',
+    'indifferent': 'calm',
+    'lukewarm': 'calm',
+    'anxious': 'hectic',
     'happy': 'happy',
-    'determined': 'curious',
-    'distressed': 'sad',
-    'serious': 'serious',
-    'sorrowful': 'sad',
-    'sad': 'sad',
+    'determined': 'inspired',
+    'distressed': 'emotional',
+    'serious': 'reflective',
+    'sorrowful': 'emotional',
+    'sad': 'emotional',
     'mild': 'content'
 }
 
 playlists = {
     'happy' : [],
     'energetic' : [],
-    'curious' : [],
+    'motivated' : [],
     'calm' : [],
-    'sad' : [],
-    'anxious' : [],
+    'emotional' : [],
+    'hectic' : [],
     'content' : [],
-    'serious' : [],
     'passionate' : [],
-    'neutral' : []
+    'reflective' : [],
+    'inspired' : []
 }
 
 k1 = 1.0
@@ -149,7 +149,13 @@ def algo(songName, songArtist):
     # Sort documents by score in descending order
     ranked_docs = sorted(scores, key=lambda x: x[1], reverse=True)
     best_category = ranked_docs[0][0]
-    playlists[category_match[best_category]].append(f'{songName} by {songArtist}')
+    ''' either the number one emotion or the emotion with the most matches for the top five categories '''
+    top_categories = [category_match[ranked_docs[i][0]] for i in range(min(5, len(ranked_docs)))]
+    category_counts = Counter(top_categories)
+    most_common_category = category_counts.most_common(1)[0][0]
+    category_to_use = most_common_category if category_counts[most_common_category] > 1 else category_match[best_category]
+    playlists[category_to_use].append(f'{songName} by {songArtist}')
+    # playlists[category_match[best_category]].append(f'{songName} by {songArtist}')
     # print(ranked_docs[0])
 
     # Display the ranking results
